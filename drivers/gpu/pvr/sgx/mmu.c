@@ -1171,9 +1171,12 @@ _DeferredAllocPagetables(MMU_HEAP *pMMUHeap, IMG_DEV_VIRTADDR DevVAddr, IMG_UINT
 						pui32PDEntry += ui32PDIndex;
 
 						
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 						pui32PDEntry[i] = (sDevPAddr.uiAddr>>SGX_MMU_PDE_ADDR_ALIGNSHIFT)
 										| pMMUHeap->ui32PDEPageSizeCtrl
 										| SGX_MMU_PDE_VALID;
+#pragma GCC diagnostic pop
 						MakeKernelPageReadOnly(psMMUContext->pvPDCpuVAddr);
 						#if defined(PDUMP)
 						
